@@ -28,7 +28,7 @@ const styles = {
 const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
 
   const { id } = useParams();
-  const favourites = JSON.parse(localStorage.favourites)
+  const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
   const isFavourite = favourites.some((favourite: any) => String(favourite.id) === id);
 
 
