@@ -78,3 +78,10 @@ export interface Review {
   rating: number,
   movieId: number,
 }
+
+export interface UpcomingMovies {
+  page: number;
+  total_pages: number;
+  tota_results: number;
+  results: BaseMovieProps[];
+}

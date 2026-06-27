@@ -1,5 +1,6 @@
 import React from "react";
 import PageTemplate from '../components/templateMovieListPage';
+import { BaseMovieProps } from "../types/interfaces";
 import { getMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
