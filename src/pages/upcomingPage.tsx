@@ -7,6 +7,9 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
+// React-Query introduced during exercise 1
+// I went further than "get your code working again"
+// I just refactored it to comply with the new model
 import { useQuery } from "react-query";
 import { UpcomingMovies } from "../types/interfaces";
 import Spinner from "../components/spinner";
@@ -24,6 +27,9 @@ const genreFiltering = {
 };
 
 const UpcomingPage: React.FC = () => {
+  // React-Query introduced during exercise 1
+  // I went further than "get your code working again"
+  // I just refactored it to comply with the new model  
   const { data, error, isLoading, isError } = useQuery<UpcomingMovies, Error>("upcoming", getUpcomingMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
@@ -67,4 +73,5 @@ const UpcomingPage: React.FC = () => {
     </>
   );
 };
+
 export default UpcomingPage;
