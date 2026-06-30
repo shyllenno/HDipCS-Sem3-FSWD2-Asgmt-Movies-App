@@ -7,19 +7,27 @@ interface MovieContextInterface {
   addToFavourites: ((movie: BaseMovieProps) => void);
   removeFromFavourites: ((movie: BaseMovieProps) => void);
   addReview: ((movie: BaseMovieProps, review: Review) => void);
+
+  mustWatch: number[];
+  addToMustWatch: ((movie: BaseMovieProps) => void);
+  removeFromMustWatch: ((movie: BaseMovieProps) => void);
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
   addToFavourites: () => { },
   removeFromFavourites: () => { },
   addReview: (movie, review) => { movie.id, review },
+
+  mustWatch: [],
+  addToMustWatch: () => { },
+  removeFromMustWatch: () => { },
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [favourites, setFavourites] = useState<number[]>([]);
-  const [myReviews, setMyReviews] = useState<Review[]>( [] );
+  const [myReviews, setMyReviews] = useState<Review[]>([]);
 
   const addToFavourites = useCallback((movie: BaseMovieProps) => {
     setFavourites((prevFavourites) => {
@@ -34,9 +42,27 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
   }, []);
 
-  const addReview = (movie:BaseMovieProps, review: Review) => {
-    setMyReviews( {...myReviews, [movie.id]: review})
+  const addReview = (movie: BaseMovieProps, review: Review) => {
+    setMyReviews({ ...myReviews, [movie.id]: review })
   };
+
+  const [mustWatch, setMustWatch] = useState<number[]>([]);
+
+  const addToMustWatch = useCallback((movie: BaseMovieProps) => {
+    setMustWatch(prev => {
+      if (!prev.includes(movie.id)) {
+        const updated = [...prev, movie.id];
+        console.log("Must Watch:", updated);
+        return updated;
+      }
+      return prev;
+    });
+  }, []);
+
+  const removeFromMustWatch = useCallback((movie: BaseMovieProps) => {
+    setMustWatch(prev => prev.filter(id => id !== movie.id));
+  }, []);
+
 
   return (
     <MoviesContext.Provider
@@ -45,6 +71,10 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         addToFavourites,
         removeFromFavourites,
         addReview,
+
+        mustWatch,
+        addToMustWatch,
+        removeFromMustWatch,
       }}
     >
       {children}

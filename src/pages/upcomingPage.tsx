@@ -62,7 +62,7 @@ const UpcomingPage: React.FC = () => {
         title='Upcoming Movies'
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => {
-          return <AddToPlaylistIcon {...movie} />
+          return <AddToPlaylistIcon movie={movie} />
         }}
       />
       <MovieFilterUI
