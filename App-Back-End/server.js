@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Hapi from "@hapi/hapi";
 import dotenv from "dotenv";
+import { webRoutes } from "./web-routes.js";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ const init = async () => {
   }
 
   const server = Hapi.server({
-    port: 3000,
+    port: 4000,
     host: "0.0.0.0",
     routes: {
       cors: {
@@ -22,6 +23,8 @@ const init = async () => {
       },
     },
   });
+
+  server.route(webRoutes);
 
   await server.start();
 
