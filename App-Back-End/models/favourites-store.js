@@ -3,10 +3,18 @@ import { FavouritesSchema } from "./schemas.js";
 
 export const favouritesStore = {
 
-  async addToFavourites(movie) {
-    const newFavourite = new FavouritesSchema(movie);
+  async addToFavourites(movieId) {
+    const newFavourite = new FavouritesSchema( {movieId} );
     const favouriteObj = await newFavourite.save();
     return favouriteObj;
+  },
+
+  async getFavourites() {
+    return FavouritesSchema.find();
+  },
+
+  async removeFromFavourites(movieId) {
+    return FavouritesSchema.deleteOne({movieId});
   },
 
 }

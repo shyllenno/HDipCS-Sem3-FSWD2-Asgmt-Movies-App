@@ -29,16 +29,26 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   const [favourites, setFavourites] = useState<number[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
 
-  const addToFavourites = useCallback((movie: BaseMovieProps) => {
-    setFavourites((prevFavourites) => {
-      if (!prevFavourites.includes(movie.id)) {
-        return [...prevFavourites, movie.id];
-      }
-      return prevFavourites;
-    });
+  React.useEffect(() => {
+    fetch(`http://localhost:4000/getfavourites`)
+      .then(res => res.json())
+      .then( (data: { movieId: number}[]) => setFavourites(data.map(f => f.movieId)));
   }, []);
 
-  const removeFromFavourites = useCallback((movie: BaseMovieProps) => {
+  const addToFavourites = useCallback(async (movie: BaseMovieProps) => {
+    await fetch("http://localhost:4000/addtofavourites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ movieId: movie.id }),
+    });
+    setFavourites(prev => [...prev, movie.id]);
+  }, []);
+
+  const removeFromFavourites = useCallback(async (movie: BaseMovieProps) => {
+    await fetch(`http://localhost:4000/removefromfavourites/${movie.id}`, {
+      method: "DELETE",
+    });
+
     setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
   }, []);
 
