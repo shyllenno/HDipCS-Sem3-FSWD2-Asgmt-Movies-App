@@ -7,7 +7,7 @@ dotenv.config();
 
 const init = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI, {dbName: "MoviesAppDB"});
     console.log("Connected to Movies App DB Cluster");
   } catch (error) {
     console.error(error);
