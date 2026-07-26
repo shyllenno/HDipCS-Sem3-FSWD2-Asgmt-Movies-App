@@ -4,4 +4,8 @@ export const reviewStore = {
     async addReview(review) {
         return ReviewSchema.create(review);
     },
+
+    async getReviews() {
+        return ReviewSchema.find();
+    },
 };

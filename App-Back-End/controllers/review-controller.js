@@ -9,4 +9,11 @@ export const reviewController = {
             
         },
     },
+
+    getReviews: {
+        handler: async function (request, h) {
+            const review = await reviewStore.getReviews();
+            return review;
+        },
+    },
 };

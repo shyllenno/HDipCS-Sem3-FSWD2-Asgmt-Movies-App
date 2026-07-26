@@ -8,4 +8,5 @@ export const webRoutes = [
   { method: "DELETE", path: "/removefromfavourites/{movieId}", config: favouritesController.removeFavourite },
 
   { method: "POST", path: "/addreview", config: reviewController.addReview },
+  { method: "GET", path: "/getreviews", config: reviewController.getReviews },
 ];
