@@ -11,6 +11,8 @@ interface MovieContextInterface {
   mustWatch: number[];
   addToMustWatch: ((movie: BaseMovieProps) => void);
   removeFromMustWatch: ((movie: BaseMovieProps) => void);
+
+  myReviews: Review[];
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -21,6 +23,8 @@ const initialContextState: MovieContextInterface = {
   mustWatch: [],
   addToMustWatch: () => { },
   removeFromMustWatch: () => { },
+
+  myReviews: [],
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -58,6 +62,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(review),
     });
+
+    setMyReviews(prev => [...prev, review]);
   };
 
   const [mustWatch, setMustWatch] = useState<number[]>([]);
@@ -89,6 +95,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         mustWatch,
         addToMustWatch,
         removeFromMustWatch,
+
+        myReviews,
       }}
     >
       {children}
