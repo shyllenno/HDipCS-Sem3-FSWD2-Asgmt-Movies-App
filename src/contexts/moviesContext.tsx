@@ -52,8 +52,12 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
   }, []);
 
-  const addReview = (movie: BaseMovieProps, review: Review) => {
-    setMyReviews({ ...myReviews, [movie.id]: review })
+  const addReview = async (movie: BaseMovieProps, review: Review) => {
+    await fetch ("http://localhost:4000/addreview", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(review),
+    });
   };
 
   const [mustWatch, setMustWatch] = useState<number[]>([]);

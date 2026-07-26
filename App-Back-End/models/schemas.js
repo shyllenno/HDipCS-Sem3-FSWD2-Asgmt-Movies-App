@@ -7,3 +7,12 @@ const favouritesSchema = new Schema({
 });
 
 export const FavouritesSchema = mongoose.model("Favourites", favouritesSchema);
+
+const reviewSchema = new Schema({
+    movieId: Number,
+    author: String,
+    content: String,
+    rating: Number,
+});
+
+export const ReviewSchema = mongoose.model("Review", reviewSchema);
