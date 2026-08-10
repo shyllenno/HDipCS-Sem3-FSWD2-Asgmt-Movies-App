@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../headerMovieList";
 import Grid from "@mui/material/Grid";
 import MovieList from "../movieList";
-import { MovieListPageTemplateProps } from "../../types/interfaces";
+import { BaseMovieProps, MovieListPageTemplateProps } from "../../types/interfaces";
 
 const styles = {
   root: {
@@ -10,7 +10,10 @@ const styles = {
   }
 };
 
-const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title, action }) => {
+
+// Reference: https://dev.to/tlylt/typescript-generic-function-reported-as-jsx-error-57nf
+// const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({ movies, title, action }) => {
+const MovieListPageTemplate = <T extends BaseMovieProps>({movies, title, action}: MovieListPageTemplateProps<T>) => {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>

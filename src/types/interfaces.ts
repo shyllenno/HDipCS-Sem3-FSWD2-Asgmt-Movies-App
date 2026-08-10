@@ -18,9 +18,15 @@ export interface BaseMovieProps {
   genre_ids?: number[];
 }
 
-export interface BaseMovieListProps {
-  movies: BaseMovieProps[];
-  action: (m: BaseMovieProps) => React.ReactNode;
+// export interface BaseMovieListProps {
+//   movies: BaseMovieProps[];
+//   action: (m: BaseMovieProps) => React.ReactNode;
+// }
+
+// Generic Interface
+export interface BaseMovieListProps<T extends BaseMovieProps> {
+  movies: T[];
+  action: (m: T) => React.ReactNode;
 }
 
 export interface MovieDetailsProps extends BaseMovieProps {
@@ -47,7 +53,12 @@ export interface MoviePageProps {
 
 export type FilterOption = "title" | "genre";
 
-export interface MovieListPageTemplateProps extends BaseMovieListProps {
+// export interface MovieListPageTemplateProps extends BaseMovieListProps {
+//   title: string;
+// }
+
+// Generic Interface
+export interface MovieListPageTemplateProps<T extends BaseMovieProps> extends BaseMovieListProps<T> {
   title: string;
 }
 
