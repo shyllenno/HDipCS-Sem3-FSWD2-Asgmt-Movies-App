@@ -30,7 +30,7 @@ const ReviewsPage: React.FC = () => {
 
     useEffect(() => {
         if (myReviews.length === 0) {
-            fetch("http://localhost:4000/reviews")
+            fetch("http://localhost:4000/getreviews")
                 .then((res) => res.json())
                 .then((data) => {
                     data.forEach((review) => addReview({ id: review.movieId } as any, review));
