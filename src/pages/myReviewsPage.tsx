@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import PageTemplate from "../components/templateMovieListPage";
+import MovieReviewTable from "../components/templateMovieTablePage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
 import { getMovie } from "../api/tmdb-api";
@@ -33,7 +33,7 @@ const ReviewsPage: React.FC = () => {
             fetch("http://localhost:4000/getreviews")
                 .then((res) => res.json())
                 .then((data) => {
-                    data.forEach((review) => addReview({ id: review.movieId } as any, review));
+                    data.forEach((review: Review) => addReview({ id: review.movieId } as any, review));
                 });
         }
     }, []);
@@ -79,15 +79,9 @@ const ReviewsPage: React.FC = () => {
 
     return (
         <>
-            <PageTemplate
+            <MovieReviewTable
                 title="My Reviews"
                 movies={displayedMovies}
-                action={(movie) => (
-                    <div style={{ padding: "8px" }}>
-                        <strong>Rating:</strong> {movie.review.rating}/5 <br />
-                        <strong>Author:</strong> {movie.review.author}
-                    </div>
-                )}
             />
 
             <MovieFilterUI
