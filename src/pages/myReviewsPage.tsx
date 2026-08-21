@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MovieReviewTable from "../components/templateMovieTablePage";
-import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
@@ -9,9 +8,7 @@ import MovieFilterUI, {
     titleFilter,
     genreFilter,
 } from "../components/movieFilterUI";
-import { BaseMovieProps } from "../types/interfaces.ts";
-import { Review } from "../types/interfaces";
-
+import { BaseMovieProps, Review } from "../types/interfaces";
 
 const titleFiltering = {
     name: "title",
@@ -26,19 +23,18 @@ const genreFiltering = {
 };
 
 const ReviewsPage: React.FC = () => {
-    const { myReviews, addReview } = useContext(MoviesContext);
+
+    const [loadedReviews, setLoadedReviews] = useState<Review[]>([]);
 
     useEffect(() => {
-        if (myReviews.length === 0) {
-            fetch("http://localhost:4000/getreviews")
-                .then((res) => res.json())
-                .then((data) => {
-                    data.forEach((review: Review) => addReview({ id: review.movieId } as any, review));
-                });
-        }
+        fetch("http://localhost:4000/getreviews")
+            .then((res) => res.json())
+            .then((data) => setLoadedReviews(data));
     }, []);
 
-    const movieIds = myReviews.map((r) => r.movieId);
+    const movieIds = loadedReviews.length > 0
+        ? [...new Set(loadedReviews.map((r) => r.movieId))]
+        : [];
 
     const { filterValues, setFilterValues, filterFunction } = useFiltering([
         titleFiltering,
@@ -52,19 +48,21 @@ const ReviewsPage: React.FC = () => {
         }))
     );
 
+    if (movieIds.length === 0) return <Spinner />;
     const isLoading = reviewMovieQueries.find((q) => q.isLoading);
 
     if (isLoading) return <Spinner />;
 
     // Reference: https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types
-    type MovieWithReview = BaseMovieProps & { review: Review };
+    type MovieWithReview = BaseMovieProps & { reviews: Review[] };
 
-    const moviesWithReviews: MovieWithReview[] = reviewMovieQueries.map((q) => {
-        const movie = q.data;
-        const review = myReviews.find((r) => r.movieId === movie.id);
-        return { ...movie, review };
-    });
-
+    const moviesWithReviews: MovieWithReview[] = reviewMovieQueries
+        .filter((q) => q.data)
+        .map((q) => {
+            const movie = q.data!;
+            const reviews = loadedReviews.filter((r) => r.movieId === movie.id);
+            return { ...movie, reviews };
+        });
 
     const displayedMovies = filterFunction(moviesWithReviews);
 
@@ -94,3 +92,4 @@ const ReviewsPage: React.FC = () => {
 };
 
 export default ReviewsPage;
+

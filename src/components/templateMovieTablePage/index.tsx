@@ -13,7 +13,7 @@ import Header from "../headerMovieList";
 import { BaseMovieProps } from "../../types/interfaces";
 import { Review } from "../../types/interfaces";
 
-type MovieWithReview = BaseMovieProps & { review: Review };
+type MovieWithReview = BaseMovieProps & { reviews: Review[] };
 
 interface Props {
   movies: MovieWithReview[];
@@ -23,41 +23,54 @@ interface Props {
 const MovieReviewTable: React.FC<Props> = ({ movies, title }) => {
   return (
     <div>
-        <Header title={title} />
+      <Header title={title} />
 
-        <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-            
+      <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+
         <Table>
-            <TableHead>
+          <TableHead>
             <TableRow>
-                <TableCell>Poster</TableCell>
-                <TableCell>Movie</TableCell>
-                <TableCell>Rating</TableCell>
-                <TableCell>Review</TableCell>
+              <TableCell>Poster</TableCell>
+              <TableCell>Movie</TableCell>
+              <TableCell>Rating</TableCell>
+              <TableCell>Review</TableCell>
             </TableRow>
-            </TableHead>
+          </TableHead>
 
-            <TableBody>
+          <TableBody>
             {movies.map((movie) => (
-                <TableRow key={movie.id}>
+              <TableRow key={movie.id}>
                 <TableCell>
-                    <img
+                  <img
                     src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                     alt={movie.title}
                     style={{ width: "80px", borderRadius: "4px" }}
-                    />
+                  />
                 </TableCell>
 
                 <TableCell>{movie.title}</TableCell>
 
-                <TableCell>{movie.review.rating}/5</TableCell>
+                <TableCell>
+                  {movie.reviews.map((rev, i) => (
+                    <div key={i}>
+                      {rev.rating}/5
+                    </div>
+                  ))}
+                </TableCell>
 
-                <TableCell>{movie.review.content}</TableCell>
-                </TableRow>
+                <TableCell>
+                  {movie.reviews.map((rev, i) => (
+                    <div key={i}>
+                      {rev.content}
+                    </div>
+                  ))}
+                </TableCell>
+
+              </TableRow>
             ))}
-            </TableBody>
+          </TableBody>
         </Table>
-        </TableContainer>
+      </TableContainer>
     </div>
   );
 };
