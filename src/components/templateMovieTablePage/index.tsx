@@ -15,12 +15,20 @@ import { Review } from "../../types/interfaces";
 
 type MovieWithReview = BaseMovieProps & { reviews: Review[] };
 
+interface ReviewRow {
+  movieId: number;
+  title: string;
+  poster_path?: string;
+  rating: number;
+  content: string;
+}
+
 interface Props {
-  movies: MovieWithReview[];
+  rows: ReviewRow[];
   title: string;
 }
 
-const MovieReviewTable: React.FC<Props> = ({ movies, title }) => {
+const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title }) => {
   return (
     <div>
       <Header title={title} />
@@ -38,33 +46,19 @@ const MovieReviewTable: React.FC<Props> = ({ movies, title }) => {
           </TableHead>
 
           <TableBody>
-            {movies.map((movie) => (
-              <TableRow key={movie.id}>
+            {rows.map((row, i) => (
+              <TableRow key={i}>
                 <TableCell>
                   <img
-                    src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                    alt={movie.title}
+                    src={`https://image.tmdb.org/t/p/w200${row.poster_path}`}
+                    alt={row.title}
                     style={{ width: "80px", borderRadius: "4px" }}
                   />
                 </TableCell>
 
-                <TableCell>{movie.title}</TableCell>
-
-                <TableCell>
-                  {movie.reviews.map((rev, i) => (
-                    <div key={i}>
-                      {rev.rating}/5
-                    </div>
-                  ))}
-                </TableCell>
-
-                <TableCell>
-                  {movie.reviews.map((rev, i) => (
-                    <div key={i}>
-                      {rev.content}
-                    </div>
-                  ))}
-                </TableCell>
+                <TableCell>{row.title}</TableCell>
+                <TableCell>{row.rating}/5</TableCell>
+                <TableCell>{row.content}</TableCell>
 
               </TableRow>
             ))}

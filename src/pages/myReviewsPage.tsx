@@ -75,11 +75,22 @@ const ReviewsPage: React.FC = () => {
         setFilterValues(updatedFilterSet);
     };
 
+    const reviewsPerRows = moviesWithReviews ? moviesWithReviews.flatMap(movie =>
+        movie.reviews.map(review => ({
+            movieId: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path,
+            rating: review.rating,
+            content: review.content
+        }))
+    )
+    : [];
+
     return (
         <>
             <MovieReviewTable
                 title="My Reviews"
-                movies={displayedMovies}
+                rows={reviewsPerRows}
             />
 
             <MovieFilterUI
