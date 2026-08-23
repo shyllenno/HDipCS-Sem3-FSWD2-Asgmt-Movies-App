@@ -5,8 +5,8 @@ export const reviewController = {
         handler: async function (request, h) {
             const review = request.payload;
             await reviewStore.addReview(review);
-            return h.response({ sucess: true}).code(200);
-            
+            return h.response({ sucess: true }).code(200);
+
         },
     },
 
@@ -16,4 +16,12 @@ export const reviewController = {
             return review;
         },
     },
+
+    deleteReview: {
+        handler: async function (request, h) {
+            const reviewID = request.params.reviewId;
+            await reviewStore.deleteReview(reviewID);
+            return h.response({ sucess: true }).code(200);
+        }
+    }
 };

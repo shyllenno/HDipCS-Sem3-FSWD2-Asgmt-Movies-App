@@ -8,4 +8,8 @@ export const reviewStore = {
     async getReviews() {
         return ReviewSchema.find();
     },
+
+    async deleteReview(reviewId){
+        return ReviewSchema.deleteOne({ _id: reviewId });
+    }
 };

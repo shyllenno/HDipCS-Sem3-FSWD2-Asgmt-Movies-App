@@ -16,6 +16,7 @@ import { Review } from "../../types/interfaces";
 type MovieWithReview = BaseMovieProps & { reviews: Review[] };
 
 interface ReviewRow {
+  reviewId: string;
   movieId: number;
   title: string;
   poster_path?: string;
@@ -26,9 +27,10 @@ interface ReviewRow {
 interface Props {
   rows: ReviewRow[];
   title: string;
+  onDelete: (id: string) => void;
 }
 
-const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title }) => {
+const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title, onDelete }) => {
   return (
     <div>
       <Header title={title} />
@@ -42,6 +44,7 @@ const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title }) => {
               <TableCell>Movie</TableCell>
               <TableCell>Rating</TableCell>
               <TableCell>Review</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
 
@@ -50,7 +53,11 @@ const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title }) => {
               <TableRow key={i}>
                 <TableCell>
                   <img
-                    src={`https://image.tmdb.org/t/p/w200${row.poster_path}`}
+                    src={
+                      row.poster_path
+                        ? `https://image.tmdb.org/t/p/w200${row.poster_path}`
+                        : "src/images/film-poster-placeholder.png"
+                    }
                     alt={row.title}
                     style={{ width: "80px", borderRadius: "4px" }}
                   />
@@ -59,6 +66,22 @@ const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title }) => {
                 <TableCell>{row.title}</TableCell>
                 <TableCell>{row.rating}/5</TableCell>
                 <TableCell>{row.content}</TableCell>
+
+                <TableCell>
+                  <button
+                    style={{
+                      background: "red",
+                      color: "white",
+                      border: "none",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      cursor: "pointer"
+                    }}
+                    onClick={()=> onDelete(row.reviewId)}
+                    >
+                      DELETE
+                    </button>
+                </TableCell>
 
               </TableRow>
             ))}

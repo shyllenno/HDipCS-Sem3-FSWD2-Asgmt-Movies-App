@@ -77,6 +77,7 @@ const ReviewsPage: React.FC = () => {
 
     const reviewsPerRows = moviesWithReviews ? moviesWithReviews.flatMap(movie =>
         movie.reviews.map(review => ({
+            reviewId: review._id,
             movieId: movie.id,
             title: movie.title,
             poster_path: movie.poster_path,
@@ -86,11 +87,20 @@ const ReviewsPage: React.FC = () => {
     )
     : [];
 
+    const deleteReview = async (reviewId: string) => {
+        await fetch(`http://localhost:4000/deletereview/${reviewId}`, {
+            method: "DELETE",
+        });
+
+        setLoadedReviews(prev => prev.filter( review => review._id !== reviewId));
+    };
+
     return (
         <>
             <MovieReviewTable
                 title="My Reviews"
                 rows={reviewsPerRows}
+                onDelete={deleteReview}
             />
 
             <MovieFilterUI

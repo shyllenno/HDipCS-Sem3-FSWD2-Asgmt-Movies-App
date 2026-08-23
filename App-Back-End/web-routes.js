@@ -9,4 +9,5 @@ export const webRoutes = [
 
   { method: "POST", path: "/addreview", config: reviewController.addReview },
   { method: "GET", path: "/getreviews", config: reviewController.getReviews },
+  { method: "DELETE", path: "/deletereview/{reviewId}", config: reviewController.deleteReview },
 ];

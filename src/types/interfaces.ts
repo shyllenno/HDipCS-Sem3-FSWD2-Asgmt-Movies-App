@@ -88,6 +88,7 @@ export interface Review {
   agree: boolean,
   rating: number,
   movieId: number,
+  _id: string,
 }
 
 export interface UpcomingMovies {
