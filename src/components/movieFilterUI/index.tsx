@@ -10,7 +10,10 @@ export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
 
 export const genreFilter = (movie: BaseMovieProps, value: string) => {
     const genreId = Number(value);
-    const genreIds = movie.genre_ids;
+    // Changed to comply with the data returned from getMovie(id) which is different from getMovies()
+    // getMovies() returns genres_ids: number[]
+    // getMovie(id) returns genres: {id, name}[]
+    const genreIds = movie.genre_ids ?? movie.genres?.map((genre) => genre.id) ?? [];
     return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
 };
 
