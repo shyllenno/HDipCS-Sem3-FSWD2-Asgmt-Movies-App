@@ -104,9 +104,9 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             </Select>
           </FormControl>
 
-          <Button onClick={handleClearText}>Clear Text</Button>
-          <Button onClick={handleClearGenre}>Clear Genre</Button>
-          <Button onClick={handleClearAll}>Clear All</Button>
+          <Button size="small" onClick={handleClearText}>Clear Text</Button>
+          <Button size="small" onClick={handleClearGenre}>Clear Genre</Button>
+          <Button size="small" onClick={handleClearAll}>Clear All</Button>
 
         </CardContent>
       </Card>
