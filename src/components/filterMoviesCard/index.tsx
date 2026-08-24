@@ -14,6 +14,7 @@ import { SelectChangeEvent } from "@mui/material";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
+import Button from "@mui/material/Button";
 
 const styles = {
   root: {
@@ -31,6 +32,7 @@ const styles = {
 interface FilterMoviesCardProps {
   titleFilter: string;
   genreFilter: string;
+  onUserInput: (name: string, value: string) => void;
 }
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
@@ -46,8 +48,8 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
   }
 
   const genres = data?.genres || [];
-  if (genres[0].name !== "All"){
-    genres.unshift( { id: "0", name: "All" });
+  if (genres[0].name !== "All") {
+    genres.unshift({ id: "0", name: "All" });
   }
 
   const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => { e.preventDefault(), onUserInput(type, value) };
@@ -55,6 +57,15 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => { handleChange(e, "title", e.target.value) };
 
   const handleGenreChange = (e: SelectChangeEvent) => { handleChange(e, "genre", e.target.value) };
+
+  const handleClearText = () => onUserInput("title", "");
+  const handleClearGenre = () => onUserInput("genre", "0");
+
+  const handleClearAll = () => {
+    handleClearGenre();
+    handleClearText();
+  }
+
 
   return (
     <>
@@ -92,6 +103,11 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
               })}
             </Select>
           </FormControl>
+
+          <Button onClick={handleClearText}>Clear Text</Button>
+          <Button onClick={handleClearGenre}>Clear Genre</Button>
+          <Button onClick={handleClearAll}>Clear All</Button>
+
         </CardContent>
       </Card>
       <Card sx={styles.root} variant="outlined">
