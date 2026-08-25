@@ -15,4 +15,5 @@ This project extends the LabMoviesApp developed throughout the FSWD2 lectures & 
 5) Changed view from one movie per row with many reviews to one review per row with many movies rows, using flatMap method
 6) Added delete method for deleting a review in the back-end & add a delete button in front-end
 7) Added sort by title method to filter UI; Applied sorting to Home, Upcoming, and Favourites pages
-8) (Work-In-Progress): TODO: Start working on "My Fantasy Movie"
+8) Removed Filter UI from My Reviews Page, as it renders in table format, and the filter component is not compatible. ***Future improvement***
+9) (Work-In-Progress): TODO: Start working on "My Fantasy Movie"
