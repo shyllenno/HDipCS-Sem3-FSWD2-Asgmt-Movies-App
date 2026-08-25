@@ -6,6 +6,18 @@ interface Filter {
   condition: (item: any, value: string) => boolean;
 }
 
+const applySort = (movies: any[], sortValue: string) => {
+  if (sortValue === "title-asc") {
+    return [...movies].sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  if (sortValue === "title-desc") {
+    return [...movies].sort((a, b) => b.title.localeCompare(a.title));
+  }
+
+  return movies;
+};
+
 const useFiltering = (filters: Filter[]) => {
   const [filterValues, setFilterValues] = useState(() => {
     const filterInitialValues = filters.map((f) => ({
@@ -15,13 +27,25 @@ const useFiltering = (filters: Filter[]) => {
     return filterInitialValues;
   });
 
-  const filteringConditions = filters.map((f) => f.condition);
-  const filterFunction = (collection: any) =>
-    filteringConditions.reduce((data, conditionFn, index) => {
-      return data.filter((item: any) => {
-        return conditionFn(item, filterValues[index].value);
-      });
-    }, collection);
+
+  const filterFunction = (collection: any[]) => {
+    let result = collection;
+
+    filters.forEach((filter, index) => {
+      const value = filterValues[index].value;
+
+      if (filter.name === "sort") {
+        result = applySort(result, value);
+        return;
+      }
+
+      result = result.filter((item) =>
+        filter.condition(item, value)
+      );
+    });
+
+    return result;
+  };
 
   return {
     filterValues,

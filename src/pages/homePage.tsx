@@ -23,10 +23,16 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
+const sortFiltering = {
+  name:"sort",
+  value: "none",
+  condition: () => true,
+};
+
 const HomePage: React.FC = () => {
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
+    [titleFiltering, genreFiltering, sortFiltering,]
   );
 
   if (isLoading) {
@@ -64,6 +70,7 @@ const HomePage: React.FC = () => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
+        sortFilter={filterValues[2].value}
       />
     </>
   );

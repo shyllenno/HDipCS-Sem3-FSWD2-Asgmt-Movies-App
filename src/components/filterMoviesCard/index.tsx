@@ -33,9 +33,10 @@ interface FilterMoviesCardProps {
   titleFilter: string;
   genreFilter: string;
   onUserInput: (name: string, value: string) => void;
+  sortFilter: string;
 }
 
-const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
+const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput, sortFilter }) => {
 
   const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
 
@@ -116,6 +117,19 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             <SortIcon fontSize="large" />
             Sort the movies.
           </Typography>
+          <FormControl sx={styles.formControl}>
+            <InputLabel id="sort-label">Sort</InputLabel>
+            <Select
+              labelId="sort-label"
+              id="sort-select"
+              value={sortFilter}
+              onChange={(e) => onUserInput("sort", e.target.value)}
+            >
+              <MenuItem value="title-asc">Title A → Z</MenuItem>
+              <MenuItem value="title-desc">Title Z → A</MenuItem>
+            </Select>
+          </FormControl>
+
         </CardContent>
       </Card>
     </>
