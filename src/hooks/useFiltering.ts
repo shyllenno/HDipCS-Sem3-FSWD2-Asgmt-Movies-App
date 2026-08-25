@@ -7,12 +7,14 @@ interface Filter {
 }
 
 const applySort = (movies: any[], sortValue: string) => {
+  const getTitle = (movie: any) => movie.title || movie.name || "";
+
   if (sortValue === "title-asc") {
-    return [...movies].sort((a, b) => a.title.localeCompare(b.title));
+    return [...movies].sort((a, b) => getTitle(a).localeCompare(getTitle(b)));
   }
 
   if (sortValue === "title-desc") {
-    return [...movies].sort((a, b) => b.title.localeCompare(a.title));
+    return [...movies].sort((a, b) => getTitle(b).localeCompare(getTitle(a)));
   }
 
   return movies;

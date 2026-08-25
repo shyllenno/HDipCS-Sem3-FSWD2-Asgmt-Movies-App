@@ -75,3 +75,17 @@ export const getUpcomingMovies = () => {
       throw error;
     });
 };
+
+export const getTVSeries = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`
+  )
+    .then((res) => {
+      if (!res.ok)
+        throw new Error(`Unable to fetch TV series. Response status: ${res.status}`);
+      return res.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

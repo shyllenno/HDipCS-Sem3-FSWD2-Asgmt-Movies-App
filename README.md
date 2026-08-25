@@ -16,4 +16,5 @@ This project extends the LabMoviesApp developed throughout the FSWD2 lectures & 
 6) Added delete method for deleting a review in the back-end & add a delete button in front-end
 7) Added sort by title method to filter UI; Applied sorting to Home, Upcoming, and Favourites pages
 8) Removed Filter UI from My Reviews Page, as it renders in table format, and the filter component is not compatible. ***Future improvement***
-9) (Work-In-Progress): TODO: Start working on "My Fantasy Movie"
+9) (Work-In-Progress): (With Bug): Added TV Series Page, but generalized Props and Components made HomePage and TV Series to render the last fetched content, e.g. if movies where fetched, both pages will always shows movies, until the collection is refreshed - TODO: Create a workaround to refresh the page as soon as either page is clicked or create/extend props and components
+10) (Work-Schedule): TODO: Start working on "My Fantasy Movie"
