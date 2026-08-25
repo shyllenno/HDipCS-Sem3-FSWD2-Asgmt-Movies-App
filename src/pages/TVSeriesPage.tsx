@@ -24,13 +24,13 @@ const genreFiltering = {
 };
 
 const sortFiltering = {
-  name:"sort",
+  name: "sort",
   value: "none",
   condition: () => true,
 };
 
 const TVSeriesPage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getTVSeries);
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover-tvseries", getTVSeries);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering, sortFiltering,]
   );
@@ -58,10 +58,10 @@ const TVSeriesPage: React.FC = () => {
       <PageTemplate
         title='Discover Movies'
         movies={displayedMovies}
-        action={(movie: BaseMovieProps) =>{
+        action={(movie: BaseMovieProps) => {
           return <AddToFavouritesIcon {...movie} />
         }}
-        
+
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
