@@ -125,6 +125,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
               value={sortFilter}
               onChange={(e) => onUserInput("sort", e.target.value)}
             >
+              <MenuItem value="none">None</MenuItem>
               <MenuItem value="title-asc">Title A → Z</MenuItem>
               <MenuItem value="title-desc">Title Z → A</MenuItem>
             </Select>

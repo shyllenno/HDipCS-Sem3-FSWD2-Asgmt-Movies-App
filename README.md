@@ -11,7 +11,8 @@ This project extends the LabMoviesApp developed throughout the FSWD2 lectures & 
 1) Cloned LabMoviesApp repo
 2) Created README.md with "Work Carried Out" section
 3) Added Back-End using Hapi and Atlas MongoDB; Persistence added to Favourites and Reviews
-4) Added My Reviews Page to fetch user's review written for favourite movies, using a new type constructed by Type Intersection
+4) Added My Reviews Page to fetch user's review written for favourite movies, using a new type constructed by Type Intersection, and rendering it in a table-like format
 5) Changed view from one movie per row with many reviews to one review per row with many movies rows, using flatMap method
 6) Added delete method for deleting a review in the back-end & add a delete button in front-end
-7) (Work-In-Progress): TODO: Start working on "My Fantasy Movie"
+7) Added sort by title method to filter UI; Applied sorting to Home, Upcoming, and Favourites pages
+8) (Work-In-Progress): TODO: Start working on "My Fantasy Movie"
