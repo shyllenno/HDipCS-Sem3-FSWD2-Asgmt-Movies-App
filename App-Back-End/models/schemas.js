@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const favouritesSchema = new Schema({
     movieId: Number,
+    type: String,
 });
 
 export const FavouritesSchema = mongoose.model("Favourites", favouritesSchema);

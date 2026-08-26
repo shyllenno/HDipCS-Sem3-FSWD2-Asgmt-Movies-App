@@ -89,3 +89,14 @@ export const getTVSeries = () => {
       throw error;
     });
 };
+
+export const getTVSerie = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((res) => {
+    if (!res.ok) {
+      throw new Error(`Unable to get tv serie data. Response status: ${res.status}`);
+    }
+    return res.json()
+  }).catch((error) => { throw error });
+};

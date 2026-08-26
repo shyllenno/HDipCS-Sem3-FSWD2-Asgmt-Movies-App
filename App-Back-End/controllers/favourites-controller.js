@@ -4,8 +4,8 @@ export const favouritesController = {
 
     addFavourite: {
         handler: async function(request, h) {
-            const { movieId } = request.payload;
-            await favouritesStore.addToFavourites(movieId);
+            const favourite = request.payload;
+            await favouritesStore.addToFavourites(favourite);
             return h.response({ success: true }).code(200);
         },
     },

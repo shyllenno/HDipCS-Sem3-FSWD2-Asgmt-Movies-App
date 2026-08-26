@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
-import { getMovie } from "../api/tmdb-api";
+import { getMovie, getTVSerie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
@@ -29,19 +29,20 @@ const sortFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {
-  const { favourites: movieIds } = useContext(MoviesContext);
+  const { favourites } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering, sortFiltering,]
   );
 
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
-      return {
-        queryKey: ["movie", movieId],
-        queryFn: () => getMovie(movieId.toString()),
-      };
-    })
+    favourites.map((fav) => ({
+      queryKey: ["favourite", fav.id, fav.type],
+      queryFn: () =>
+        fav.type === "movie"
+          ? getMovie(fav.id.toString())
+          : getTVSerie(fav.id.toString()),
+    }))
   );
 
   // Check if any of the parallel queries is still loading.

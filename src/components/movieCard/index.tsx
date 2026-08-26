@@ -35,10 +35,15 @@ interface MovieCardProps<T extends BaseMovieProps> {
 }
 
 // const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
-const MovieCard = <T extends BaseMovieProps>({movie, action }: MovieCardProps<T>) => {
+const MovieCard = <T extends BaseMovieProps>({ movie, action }: MovieCardProps<T>) => {
   const { favourites, addToFavourites } = useContext(MoviesContext);
 
-  const isFavourite = favourites.find((id) => id === movie.id) ? true : false;
+  const isFavourite = favourites.some(f => f.id === movie.id);
+  const type: "movie" | "tv" = movie.title ? "movie" : "tv";
+
+  const detailsUrl = type === "movie"
+    ? `/movies/${movie.id}`
+    : `/tv/${movie.id}`;
 
   return (
     <Card sx={styles.card}>

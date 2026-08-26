@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { BaseMovieProps, Review } from "../types/interfaces";
 
+interface FavouriteItem {
+  id: number;
+  type: "movie" | "tv";
+}
 
 interface MovieContextInterface {
-  favourites: number[];
+  favourites: FavouriteItem[];
   addToFavourites: ((movie: BaseMovieProps) => void);
   removeFromFavourites: ((movie: BaseMovieProps) => void);
   addReview: ((movie: BaseMovieProps, review: Review) => void);
@@ -30,22 +34,33 @@ const initialContextState: MovieContextInterface = {
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [favourites, setFavourites] = useState<number[]>([]);
+  const [favourites, setFavourites] = useState<FavouriteItem[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
 
   React.useEffect(() => {
     fetch(`http://localhost:4000/getfavourites`)
-      .then(res => res.json())
-      .then( (data: { movieId: number}[]) => setFavourites(data.map(f => f.movieId)));
+      .then((res) => res.json())
+      .then(
+        (data: { movieId: number; type: "movie" | "tv" }[]) =>
+          setFavourites(
+            data.map((f) => ({
+              id: f.movieId,
+              type: f.type,
+            }))
+          )
+      );
   }, []);
 
   const addToFavourites = useCallback(async (movie: BaseMovieProps) => {
+    const type: "movie" | "tv" = movie.title ? "movie" : "tv";
+
     await fetch("http://localhost:4000/addtofavourites", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ movieId: movie.id }),
+      body: JSON.stringify({ movieId: movie.id, type }),
     });
-    setFavourites(prev => [...prev, movie.id]);
+
+    setFavourites((prev) => [...prev, { id: movie.id, type }]);
   }, []);
 
   const removeFromFavourites = useCallback(async (movie: BaseMovieProps) => {
@@ -53,7 +68,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       method: "DELETE",
     });
 
-    setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
+    setFavourites((prev) => prev.filter((f) => f.id !== movie.id));
   }, []);
 
   const addReview = async (movie: BaseMovieProps, review: Review) => {
