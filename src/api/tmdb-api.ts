@@ -53,6 +53,20 @@ export const getMovieImages = (id: string | number) => {
     .catch((error) => { throw error });
 };
 
+export const getTVSerieImages = (id: string | number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  )
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch the images for tv serie id: ${id}`);
+      }
+      return res.json()
+    })
+    .then((json) => json.posters)
+    .catch((error) => { throw error });
+};
+
 export const getMovieReviews = (id: string | number) => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`

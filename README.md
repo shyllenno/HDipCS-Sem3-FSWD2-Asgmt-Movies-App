@@ -16,5 +16,6 @@ This project extends the LabMoviesApp developed throughout the FSWD2 lectures & 
 6) Added delete method for deleting a review in the back-end & add a delete button in front-end
 7) Added sort by title method to filter UI; Applied sorting to Home, Upcoming, and Favourites pages
 8) Removed Filter UI from My Reviews Page, as it renders in table format, and the filter component is not compatible. ***Future improvement***
-9) (Work-In-Progress: Adding TV Series Page - Partially working): Bug fixed after giving a new name to the discover cache for TV Series; Favourites page breaks after adding a TV Serie to favourites - TODO: Generalize the Favourites components or create new TVSeriesFavourite components 
-10) (Work-Scheduled): TODO: Start working on "My Fantasy Movie"
+9) Added TV Series Page: Page replicated from Movies HomePage. The Data Model and several Components were modified to accept the two data types: movie & tv, because, firstly, they call different end-points, and secondly, because few fields are named differently, e.g. movie uses title, but tv series use name, and thirdly, they have different fields
+10) (Work-In-Progress): TODO: Revisit My Reviews Page as it needs to be adapted to fetch/render tv series 
+11) (Work-Scheduled): TODO: Start working on "My Fantasy Movie"

@@ -100,3 +100,19 @@ export interface UpcomingMovies {
   tota_results: number;
   results: BaseMovieProps[];
 }
+
+export interface TVDetailsProps {
+  id: number;
+  name: string;
+  overview: string;
+  genres: { id: number; name: string }[];
+  episode_run_time: number[];
+  vote_average: number;
+  vote_count: number;
+  first_air_date: string;
+  last_air_date: string;
+  number_of_seasons: number;
+  number_of_episodes: number;
+  in_production: boolean;
+  type: string;
+}

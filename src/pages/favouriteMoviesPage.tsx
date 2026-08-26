@@ -69,10 +69,11 @@ const FavouriteMoviesPage: React.FC = () => {
         title="Favourite Movies"
         movies={displayedMovies}
         action={(movie) => {
+          const favourite = favourites.find( fav => fav.id === movie.id);
           return (
             <>
               <RemoveFromFavouritesIcon {...movie} />
-              <WriteReviewIcon {...movie} />
+              <WriteReviewIcon movieId={movie.id} type={favourite!.type} />
             </>
           )
         }}

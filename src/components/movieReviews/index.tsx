@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
 
-import { MovieDetailsProps, Review } from "../../types/interfaces"; // Import the MovieT type from the appropriate location
+import { MovieDetailsProps, Review , TVDetailsProps} from "../../types/interfaces"; // Import the MovieT type from the appropriate location
 
 const styles = {
   table: {
@@ -18,7 +18,9 @@ const styles = {
   },
 };
 
-const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
+type Reviewable = MovieDetailsProps | TVDetailsProps;
+
+const MovieReviews: React.FC<Reviewable> = (movie) => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {

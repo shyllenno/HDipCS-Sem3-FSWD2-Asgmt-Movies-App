@@ -10,7 +10,7 @@ import { MovieDetailsProps } from "../../types/interfaces";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Avatar from "@mui/material/Avatar";
 import { useParams } from "react-router-dom";
-
+import { TVDetailsProps } from "../../types/interfaces";
 
 const styles = {
   root: {
@@ -25,12 +25,19 @@ const styles = {
   },
 };
 
-const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
+type MediaDetails = MovieDetailsProps | TVDetailsProps;
+
+const MovieHeader: React.FC<MediaDetails> = (media) => {
 
   const { id } = useParams();
   const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
   const isFavourite = favourites.some((favourite: any) => String(favourite.id) === id);
 
+  const isMovie = "title" in media;
+
+  const title = isMovie ? media.title : media.name;
+  const homepage = isMovie ? media.homepage : undefined;
+  const tagline = isMovie ? media.tagline : undefined;
 
   return (
     <Paper component="div" sx={styles.root}>
@@ -45,12 +52,12 @@ const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
       ) : null}
 
       <Typography variant="h4" component="h3">
-        {movie.title}{"   "}
-        <a href={movie.homepage}>
+        {title}{"   "}
+        <a href={homepage}>
           <HomeIcon color="primary" fontSize="large" />
         </a>
         <br />
-        <span>{`${movie.tagline}`} </span>
+        <span>{`${tagline}`} </span>
       </Typography>
       <IconButton aria-label="go forward">
         <ArrowForwardIcon color="primary" fontSize="large" />

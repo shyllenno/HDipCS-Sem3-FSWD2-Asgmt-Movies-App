@@ -3,12 +3,18 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import {BaseMovieProps} from "../../types/interfaces"
 import { Link } from "react-router-dom";
 
-const WriteReviewIcon:React.FC<BaseMovieProps> = (movie) => {
+
+interface WriteReviewIconProps {
+  movieId: number;
+  type: "movie" | "tv";
+}
+const WriteReviewIcon:React.FC<WriteReviewIconProps> = ({movieId, type}) => { 
   return (
     <Link
     to={'/reviews/form'}
     state={{
-        movieId: movie.id,
+        movieId,
+        type,
       }}
   >
     <RateReviewIcon color="primary" fontSize="large" />

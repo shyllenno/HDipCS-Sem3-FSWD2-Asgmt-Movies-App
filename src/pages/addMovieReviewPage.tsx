@@ -3,16 +3,16 @@ import PageTemplate from "../components/templateMoviePage";
 import ReviewForm from "../components/reviewForm";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getMovie } from "../api/tmdb-api";
+import { getMovie, getTVSerie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import { BaseMovieProps, MovieDetailsProps } from "../types/interfaces";
 
-const WriteReviewPage: React.FC = () => {
+const AddMovieReviewPage: React.FC = () => {
     const location = useLocation()
-    const { movieId } = location.state;
+    const { movieId, type } = location.state;
     const { data: movie, error, isLoading, isError } = useQuery<MovieDetailsProps, Error>(
-        ["movie", movieId],
-        () => getMovie(movieId)
+        ["movie", movieId, type, ],
+        () => (type === "movie" ? getMovie(movieId) : getTVSerie(movieId))
     );
 
     if (isLoading) {
@@ -25,7 +25,7 @@ const WriteReviewPage: React.FC = () => {
     return (
         <>
             {movie ? (
-                    <PageTemplate movie={movie}>
+                    <PageTemplate movie={movie} type={type}>
                         <ReviewForm {...movie} />
                     </PageTemplate>
             ) : (
@@ -35,4 +35,4 @@ const WriteReviewPage: React.FC = () => {
     );
 };
 
-export default WriteReviewPage;
+export default AddMovieReviewPage;

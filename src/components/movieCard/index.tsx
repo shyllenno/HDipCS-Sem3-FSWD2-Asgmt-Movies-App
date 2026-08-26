@@ -39,11 +39,11 @@ const MovieCard = <T extends BaseMovieProps>({ movie, action }: MovieCardProps<T
   const { favourites, addToFavourites } = useContext(MoviesContext);
 
   const isFavourite = favourites.some(f => f.id === movie.id);
-  const type: "movie" | "tv" = movie.title ? "movie" : "tv";
 
+  const type = movie.title ? "movie" : "tv";
   const detailsUrl = type === "movie"
-    ? `/movies/${movie.id}`
-    : `/tv/${movie.id}`;
+  ? `/movies/${movie.id}`
+  : `/tv/${movie.id}`;
 
   return (
     <Card sx={styles.card}>
@@ -88,7 +88,8 @@ const MovieCard = <T extends BaseMovieProps>({ movie, action }: MovieCardProps<T
       </CardContent>
       <CardActions disableSpacing>
         {action(movie)}
-        <Link to={`/movies/${movie.id}`}>
+
+        <Link to={detailsUrl} >
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

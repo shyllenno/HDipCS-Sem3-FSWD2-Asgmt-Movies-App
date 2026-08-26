@@ -3,10 +3,11 @@ import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages } from "../../api/tmdb-api";
+import { getMovieImages, getTVSerieImages } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
+import { TVDetailsProps } from "../../types/interfaces";
 
 const styles = {
   gridListRoot: {
@@ -20,16 +21,19 @@ const styles = {
   },
 };
 
+type MediaDetails = MovieDetailsProps | TVDetailsProps;
+
 interface TemplateMoviePageProps {
-  movie: MovieDetailsProps;
+  movie: MediaDetails;
+  type: "movie" | "tv";
   children: React.ReactElement;
 }
 
 
-const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }) => {
+const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, type, children }) => {
   const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
-    ["images", movie.id],
-    () => getMovieImages(movie.id)
+    ["images", movie.id, type],
+    () => type === "movie" ? getMovieImages(movie.id) : getTVSerieImages(movie.id)
   );
 
   if (isLoading) {
