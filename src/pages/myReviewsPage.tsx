@@ -52,7 +52,8 @@ const ReviewsPage: React.FC = () => {
             title: movie.title || movie.name,
             poster_path: movie.poster_path,
             rating: review.rating,
-            content: review.content
+            content: review.content,
+            type: review.type === "movie" ? "Movie" : "TV Serie",
         }))
     )
     : [];

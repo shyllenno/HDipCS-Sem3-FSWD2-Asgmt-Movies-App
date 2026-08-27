@@ -23,6 +23,7 @@ interface ReviewRow {
   poster_path?: string;
   rating: number;
   content: string;
+  type: string;
 }
 
 interface Props {
@@ -42,7 +43,8 @@ const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title, onDelete })
           <TableHead>
             <TableRow>
               <TableCell>Poster</TableCell>
-              <TableCell>Movie</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Media</TableCell>
               <TableCell>Rating</TableCell>
               <TableCell>Review</TableCell>
               <TableCell>Action</TableCell>
@@ -65,6 +67,7 @@ const MovieReviewTable: React.FC<Props> = ({ rows: rows = [], title, onDelete })
                 </TableCell>
 
                 <TableCell>{row.title}</TableCell>
+                <TableCell>{row.type}</TableCell>
                 <TableCell>{row.rating}/5</TableCell>
                 <TableCell>{row.content}</TableCell>
 
