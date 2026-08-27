@@ -114,3 +114,14 @@ export const getTVSerie = (id: string) => {
     return res.json()
   }).catch((error) => { throw error });
 };
+
+export const getMoviesGenres = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/genre/movie/list?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((res) => {
+    if (!res.ok) {
+      throw new Error(`Unable to get movies' genre data. Response status: ${res.status}`);
+    }
+    return res.json()
+  }).catch((error) => { throw error });
+};

@@ -114,3 +114,13 @@ export interface TVDetailsProps {
   tagline: string;
 
 }
+
+export interface MyFantasyMovieProps {
+  title: string;
+  genres: { id: number; name: string }[];
+  directors: string[];
+  plot: string;
+  cast: { realName: string; fictionName: string }[];
+  image_path: string;
+}
+

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { BaseMovieProps, Review } from "../types/interfaces";
+import { getMoviesGenres } from "../api/tmdb-api.ts";
 
 interface FavouriteItem {
   id: number;
@@ -17,6 +18,9 @@ interface MovieContextInterface {
   removeFromMustWatch: ((movie: BaseMovieProps) => void);
 
   myReviews: Review[];
+
+  genresList: { id: number; name: string }[];
+
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -29,6 +33,8 @@ const initialContextState: MovieContextInterface = {
   removeFromMustWatch: () => { },
 
   myReviews: [],
+
+  genresList: [],
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -101,6 +107,16 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     setMustWatch(prev => prev.filter(id => id !== movie.id));
   }, []);
 
+  const [genresList, setGenresList] = useState<{ id: number; name: string }[]>([]);
+
+  React.useEffect(() => {
+    getMoviesGenres()
+      .then((data) => {
+        setGenresList(data.genres);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
 
   return (
     <MoviesContext.Provider
@@ -115,6 +131,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         removeFromMustWatch,
 
         myReviews,
+
+        genresList,
       }}
     >
       {children}
