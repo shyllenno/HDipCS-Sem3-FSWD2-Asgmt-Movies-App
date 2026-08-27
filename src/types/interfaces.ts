@@ -18,7 +18,7 @@ export interface BaseMovieProps {
   vote_count: number;
   favourite?: boolean;
   genre_ids?: number[];
-  genres?: {id: number; name: string }[];
+  genres?: { id: number; name: string }[];
 }
 
 // export interface BaseMovieListProps {
@@ -65,12 +65,6 @@ export interface MovieListPageTemplateProps<T extends BaseMovieProps> extends Ba
   title: string;
 }
 
-export interface Review {
-  id: string;
-  content: string;
-  author: string;
-}
-
 export interface GenreData {
   genres: {
     id: string;
@@ -92,6 +86,7 @@ export interface Review {
   rating: number,
   movieId: number,
   _id: string,
+  type: string;
 }
 
 export interface UpcomingMovies {
@@ -115,4 +110,7 @@ export interface TVDetailsProps {
   number_of_episodes: number;
   in_production: boolean;
   type: string;
+  homepage: string | undefined;
+  tagline: string;
+
 }

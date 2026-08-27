@@ -72,9 +72,12 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   }, []);
 
   const addReview = async (movie: BaseMovieProps, review: Review) => {
-    await fetch ("http://localhost:4000/addreview", {
+    const type: "movie" | "tv" = movie.title ? "movie" : "tv";
+    review.type = type;
+
+    await fetch("http://localhost:4000/addreview", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(review),
     });
 

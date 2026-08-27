@@ -18,7 +18,8 @@ type MovieWithReview = BaseMovieProps & { reviews: Review[] };
 interface ReviewRow {
   reviewId: string;
   movieId: number;
-  title: string;
+  title?: string;
+  name?: string;
   poster_path?: string;
   rating: number;
   content: string;

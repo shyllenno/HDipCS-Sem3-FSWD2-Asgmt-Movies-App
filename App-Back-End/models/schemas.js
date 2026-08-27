@@ -14,6 +14,7 @@ const reviewSchema = new Schema({
     author: String,
     content: String,
     rating: Number,
+    type: String,
 });
 
 export const ReviewSchema = mongoose.model("Review", reviewSchema);

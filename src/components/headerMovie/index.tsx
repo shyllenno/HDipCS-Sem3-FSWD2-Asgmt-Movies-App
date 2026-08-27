@@ -36,8 +36,8 @@ const MovieHeader: React.FC<MediaDetails> = (media) => {
   const isMovie = "title" in media;
 
   const title = isMovie ? media.title : media.name;
-  const homepage = isMovie ? media.homepage : undefined;
-  const tagline = isMovie ? media.tagline : undefined;
+  const homepage = media.homepage;
+  const tagline = media.tagline;
 
   return (
     <Paper component="div" sx={styles.root}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieReviewTable from "../components/templateMovieTablePage";
 import { useQueries } from "react-query";
-import { getMovie } from "../api/tmdb-api";
+import { getMovie, getTVSerie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import { BaseMovieProps, Review } from "../types/interfaces";
 
@@ -20,9 +20,12 @@ const ReviewsPage: React.FC = () => {
         : [];
 
     const reviewMovieQueries = useQueries(
-        movieIds.map((movieId) => ({
-            queryKey: ["movie", movieId],
-            queryFn: () => getMovie(movieId.toString()),
+        loadedReviews.map((review) => ({
+            queryKey: ["review", review.movieId, review.type],
+            queryFn: () => 
+                review.type === "movie"
+            ? getMovie(review.movieId.toString())
+            : getTVSerie(review.movieId.toString()),
         }))
     );
 
@@ -46,7 +49,7 @@ const ReviewsPage: React.FC = () => {
         movie.reviews.map(review => ({
             reviewId: review._id,
             movieId: movie.id,
-            title: movie.title,
+            title: movie.title || movie.name,
             poster_path: movie.poster_path,
             rating: review.rating,
             content: review.content
