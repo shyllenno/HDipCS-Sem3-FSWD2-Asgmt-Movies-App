@@ -8,7 +8,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { useNavigate } from "react-router-dom";
 import styles from "../reviewForm/styles";
-import { BaseMovieProps, MyFantasyMovieProps, Review } from "../../types/interfaces";
+import { MyFantasyMovieProps } from "../../types/interfaces";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
@@ -18,9 +18,9 @@ const FantasyMovieForm: React.FC<MyFantasyMovieProps> = (movie) => {
 
       title: "",
       genres: [],
-      directors: [],
+      directors: [""],
       plot: "",
-      cast: [],
+      cast: [{ realName: "", fictionName: "" }],
       image_path: "",
     }
   };
@@ -47,234 +47,265 @@ const FantasyMovieForm: React.FC<MyFantasyMovieProps> = (movie) => {
   };
 
   return (
-  <Box component="div" sx={styles.root}>
-    <Typography component="h2" variant="h3">
-      Create a Fantasy Movie
-    </Typography>
+    <Box component="div" sx={{
+      // styles.root
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      paddingTop: 4,
+    }}>
+      <Typography component="h2" variant="h3">
+        Create a Fantasy Movie
+      </Typography>
 
-    <Snackbar
-      sx={styles.snack}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      onClose={handleSnackClose}
-    >
-      <Alert severity="success" variant="filled" onClose={handleSnackClose}>
-        <Typography variant="h4">
-          Fantasy movie created successfully
-        </Typography>
-      </Alert>
-    </Snackbar>
+      <Snackbar
+        sx={styles.snack}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        onClose={handleSnackClose}
+      >
+        <Alert severity="success" variant="filled" onClose={handleSnackClose}>
+          <Typography variant="h4">
+            Fantasy movie created successfully
+          </Typography>
+        </Alert>
+      </Snackbar>
 
-    <form style={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form style={
+        // styles.form
+        {
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }} onSubmit={handleSubmit(onSubmit)} noValidate>
 
-      {/* TITLE */}
-      <Controller
-        name="title"
-        control={control}
-        rules={{ required: "Title is required" }}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            sx={{ width: "40ch" }}
-            variant="outlined"
-            margin="normal"
-            required
-            label="Movie Title"
-          />
+        {/* TITLE */}
+        <Controller
+          name="title"
+          control={control}
+          rules={{ required: "Title is required" }}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              sx={{ width: "60ch" }}
+              variant="outlined"
+              margin="normal"
+              required
+              label="Movie Title"
+            />
+          )}
+        />
+        {errors.title && (
+          <Typography variant="h6" component="p">
+            {errors.title.message}
+          </Typography>
         )}
-      />
-      {errors.title && (
-        <Typography variant="h6" component="p">
-          {errors.title.message}
-        </Typography>
-      )}
 
-      {/* GENRES */}
-      <Controller
-        name="genres"
-        control={control}
-        rules={{ required: "Select at least one genre" }}
-        defaultValue={[]}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            select
-            SelectProps={{ multiple: true }}
-            variant="outlined"
-            margin="normal"
-            label="Genres"
-            fullWidth
-          >
-            {genresList.map((g) => (
-              <MenuItem key={g.id} value={g.id}>
-                {g.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
-      />
-      {errors.genres && (
-        <Typography variant="h6" component="p">
-          {errors.genres.message}
-        </Typography>
-      )}
-
-      {/* DIRECTORS */}
-      <Controller
-        name="directors"
-        control={control}
-        rules={{ required: "Directors are required" }}
-        defaultValue={[""]}
-        render={({ field }) => (
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="h6">Directors</Typography>
-            {field.value.map((director: string, index: number) => (
+        {/* GENRES */}
+        <Controller
+          name="genres"
+          control={control}
+          rules={{ required: "Select at least one genre" }}
+          defaultValue={[]}
+          render={({ field }) => (
+            <Box>
               <TextField
-                key={index}
+                {...field}
+                select
+                SelectProps={{ multiple: true }}
                 variant="outlined"
                 margin="normal"
-                fullWidth
-                label={`Director ${index + 1}`}
-                value={director}
-                onChange={(e) => {
-                  const updated = [...field.value];
-                  updated[index] = e.target.value;
-                  field.onChange(updated);
-                }}
-              />
-            ))}
-            <Button
+                label="Genres"
+                // fullWidth
+                sx={{ width: "60ch" }}
+
+              >
+                {genresList.map((g) => (
+                  <MenuItem key={g.id} value={g.id}>
+                    {g.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+          )}
+
+        />
+        {errors.genres && (
+          <Typography variant="h6" component="p">
+            {errors.genres.message}
+          </Typography>
+        )}
+
+        {/* PLOT */}
+        <Controller
+          name="plot"
+          control={control}
+          rules={{ required: "Plot is required" }}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
               variant="outlined"
-              onClick={() => field.onChange([...field.value, ""])}
-            >
-              Add Director
-            </Button>
-          </Box>
-        )}
-      />
+              margin="normal"
+              required
+              // fullWidth
+              sx={{ width: "60ch" }}
 
-      {/* PLOT */}
-      <Controller
-        name="plot"
-        control={control}
-        rules={{ required: "Plot is required" }}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Plot"
-            multiline
-            minRows={6}
-          />
+              label="Plot"
+              multiline
+              minRows={6}
+            />
+          )}
+        />
+        {errors.plot && (
+          <Typography variant="h6" component="p">
+            {errors.plot.message}
+          </Typography>
         )}
-      />
-      {errors.plot && (
-        <Typography variant="h6" component="p">
-          {errors.plot.message}
-        </Typography>
-      )}
 
-      {/* CAST */}
-      <Controller
-        name="cast"
-        control={control}
-        defaultValue={[{ realName: "", fictionName: "" }]}
-        render={({ field }) => (
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="h6">Cast</Typography>
-            {field.value.map((member: any, index: number) => (
-              <Box key={index} sx={{ display: "flex", gap: 2, mt: 1 }}>
-                <TextField
-                  variant="outlined"
-                  label="Actor Real Name"
-                  value={member.realName}
-                  onChange={(e) => {
-                    const updated = [...field.value];
-                    updated[index].realName = e.target.value;
-                    field.onChange(updated);
-                  }}
-                />
-                <TextField
-                  variant="outlined"
-                  label="Character Name"
-                  value={member.fictionName}
-                  onChange={(e) => {
-                    const updated = [...field.value];
-                    updated[index].fictionName = e.target.value;
-                    field.onChange(updated);
-                  }}
-                />
-              </Box>
-            ))}
-            <Button
+        {/* DIRECTORS */}
+        <Controller
+          name="directors"
+          control={control}
+          rules={{ required: "Directors are required" }}
+          defaultValue={[""]}
+          render={({ field }) => (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h6">Directors</Typography>
+              {field.value.map((director: string, index: number) => (
+                <Box>
+                  <TextField
+                    key={index}
+                    variant="outlined"
+                    margin="normal"
+                    // fullWidth
+                    sx={{ width: "60ch" }}
+
+                    label={`Director ${index + 1}`}
+                    value={director}
+                    onChange={(e) => {
+                      const updated = [...field.value];
+                      updated[index] = e.target.value;
+                      field.onChange(updated);
+                    }}
+                  />
+                </Box>
+              ))}
+              <Button
+                variant="outlined"
+                onClick={() => field.onChange([...field.value, ""])}
+              >
+                Add Director
+              </Button>
+            </Box>
+          )}
+        />
+
+        {/* CAST */}
+        <Controller
+          name="cast"
+          control={control}
+          defaultValue={[{ realName: "", fictionName: "" }]}
+          render={({ field }) => (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h6">Cast</Typography>
+              {field.value.map((member: any, index: number) => (
+                <Box key={index} sx={{ display: "flex", gap: 2, mt: 2, mb: 1 }}>
+                  <TextField
+                    variant="outlined"
+                    sx={{ width: "29ch" }}
+
+                    label="Actor Real Name"
+                    value={member.realName}
+                    onChange={(e) => {
+                      const updated = [...field.value];
+                      updated[index].realName = e.target.value;
+                      field.onChange(updated);
+                    }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    sx={{ width: "29ch" }}
+
+                    label="Character Name"
+                    value={member.fictionName}
+                    onChange={(e) => {
+                      const updated = [...field.value];
+                      updated[index].fictionName = e.target.value;
+                      field.onChange(updated);
+                    }}
+                  />
+                </Box>
+              ))}
+              <Button
+                variant="outlined"
+                onClick={() =>
+                  field.onChange([
+                    ...field.value,
+                    { realName: "", fictionName: "" },
+                  ])
+                }
+              >
+                Add Cast Member
+              </Button>
+            </Box>
+          )}
+        />
+
+        {/* IMAGE PATH */}
+        <Controller
+          name="image_path"
+          control={control}
+          rules={{ required: "Image URL is required" }}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
               variant="outlined"
-              onClick={() =>
-                field.onChange([
-                  ...field.value,
-                  { realName: "", fictionName: "" },
-                ])
-              }
-            >
-              Add Cast Member
-            </Button>
-          </Box>
+              margin="normal"
+              required
+              // fullWidth
+              sx={{ width: "60ch" }}
+              label="Image URL"
+            />
+          )}
+        />
+        {errors.image_path && (
+          <Typography variant="h6" component="p">
+            {errors.image_path.message}
+          </Typography>
         )}
-      />
 
-      {/* IMAGE PATH */}
-      <Controller
-        name="image_path"
-        control={control}
-        rules={{ required: "Image URL is required" }}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Image URL"
-          />
-        )}
-      />
-      {errors.image_path && (
-        <Typography variant="h6" component="p">
-          {errors.image_path.message}
-        </Typography>
-      )}
-
-      {/* BUTTONS */}
-      <Box sx={{ mt: 3 }}>
-        <Button type="submit" variant="contained" color="primary" sx={styles.submit}>
-          Submit
-        </Button>
-        <Button
-          type="reset"
-          variant="contained"
-          color="secondary"
-          sx={styles.submit}
-          onClick={() =>
-            reset({
-              title: "",
-              genres: [],
-              directors: [""],
-              plot: "",
-              cast: [{ realName: "", fictionName: "" }],
-              image_path: "",
-            })
-          }
-        >
-          Reset
-        </Button>
-      </Box>
-    </form>
-  </Box>
-);
+        {/* BUTTONS */}
+        <Box sx={{ mt: 3 }}>
+          <Button type="submit" variant="contained" color="primary" sx={styles.submit}>
+            Submit
+          </Button>
+          <Button
+            type="reset"
+            variant="contained"
+            color="secondary"
+            sx={styles.submit}
+            onClick={() =>
+              reset({
+                title: "",
+                genres: [],
+                directors: [""],
+                plot: "",
+                cast: [{ realName: "", fictionName: "" }],
+                image_path: "",
+              })
+            }
+          >
+            Reset
+          </Button>
+        </Box>
+      </form>
+    </Box>
+  );
 
 };
 
