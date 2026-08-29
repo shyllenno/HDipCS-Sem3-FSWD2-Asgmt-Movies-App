@@ -25,6 +25,8 @@ const FantasyMovieForm: React.FC<MyFantasyMovieProps> = (movie) => {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
   const {
     control,
     formState: { errors },
@@ -33,17 +35,19 @@ const FantasyMovieForm: React.FC<MyFantasyMovieProps> = (movie) => {
   } = useForm<MyFantasyMovieProps>(defaultValues);
 
   const navigate = useNavigate();
-  // const context = useContext(MoviesContext);
+  const context = useContext(MoviesContext);
   const { genresList } = useContext(MoviesContext);
 
 
   const handleSnackClose = () => {
+    setOpen(false);
     navigate("/myfantasymovies");
   };
 
   const onSubmit: SubmitHandler<MyFantasyMovieProps> = (fantasyMovie) => {
-    console.log(fantasyMovie);
-    // context.addReview(movie, fantasyMovie);
+    context.addFantasyMovie(fantasyMovie);
+    setOpen(true);
+
   };
 
   return (
@@ -63,6 +67,7 @@ const FantasyMovieForm: React.FC<MyFantasyMovieProps> = (movie) => {
       <Snackbar
         sx={styles.snack}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
         onClose={handleSnackClose}
       >
         <Alert severity="success" variant="filled" onClose={handleSnackClose}>
@@ -176,9 +181,8 @@ const FantasyMovieForm: React.FC<MyFantasyMovieProps> = (movie) => {
             <Box sx={{ mt: 2 }}>
               <Typography variant="h6">Directors</Typography>
               {field.value.map((director: string, index: number) => (
-                <Box>
+                <Box key={index}>
                   <TextField
-                    key={index}
                     variant="outlined"
                     margin="normal"
                     // fullWidth

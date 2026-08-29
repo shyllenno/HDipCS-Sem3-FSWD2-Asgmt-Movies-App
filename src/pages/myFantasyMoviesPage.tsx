@@ -1,8 +1,15 @@
 import React, { useContext } from "react"
 import Fab from "@mui/material/Fab";
 import { useNavigate } from "react-router-dom";
+import { MoviesContext } from "../contexts/moviesContext";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
 
 const MyFantasyMoviesPage: React.FC = () => {
+  const { myFantasyMovies } = useContext(MoviesContext);
 
   const styles = {
     root: {
@@ -27,15 +34,56 @@ const MyFantasyMoviesPage: React.FC = () => {
           navigate(
             '/myfantasymovies/form', {
             // state={
-              // movieId,
-              // type,
+            // movieId,
+            // type,
             // }
           });
         }}
-      sx={styles.fab}
+        sx={styles.fab}
       >
-      Create a Fantasy Movie
-    </Fab >
+        Create a Fantasy Movie
+      </Fab >
+
+      <Grid container spacing={3} sx={{ padding: 3 }}>
+        <Grid item xs={12}>
+          <Typography variant="h3" component="h2" sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+          >
+            My Fantasy Movies
+          </Typography>
+        </Grid>
+
+        {myFantasyMovies.map((movie, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Card>
+              <CardMedia
+                component="img"
+                height="350"
+                image={movie.image_path}
+                alt={movie.title}
+              />
+              <CardContent>
+                <Typography variant="h5">{movie.title}</Typography>
+                <Typography variant="body2">
+                  Genres: {movie.genres.join(", ")}
+                </Typography>
+                <Typography variant="body2">
+                  Directors: {movie.directors.join(", ")}
+                </Typography>
+                <Typography variant="body2">
+                  Cast:{" "}
+                  {movie.cast
+                    .map((c) => `${c.realName} as ${c.fictionName}`)
+                    .join(", ")}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
 
     </>
   );

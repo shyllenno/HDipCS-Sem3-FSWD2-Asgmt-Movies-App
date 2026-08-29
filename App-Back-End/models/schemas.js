@@ -18,3 +18,19 @@ const reviewSchema = new Schema({
 });
 
 export const ReviewSchema = mongoose.model("Review", reviewSchema);
+
+const fantasyMovieSchema = new Schema({
+  title: String,
+  genres: [Number],
+  directors: [String],
+  plot: String,
+  cast: [
+    {
+      realName: String,
+      fictionName: String,
+    }
+  ],
+  image_path: String,
+});
+
+export const FantasyMovieSchema = mongoose.model("FantasyMovie", fantasyMovieSchema);

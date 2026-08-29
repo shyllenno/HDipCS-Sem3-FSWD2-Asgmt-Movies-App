@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { BaseMovieProps, Review } from "../types/interfaces";
+import { BaseMovieProps, MyFantasyMovieProps, Review } from "../types/interfaces";
 import { getMoviesGenres } from "../api/tmdb-api.ts";
 
 interface FavouriteItem {
@@ -21,6 +21,9 @@ interface MovieContextInterface {
 
   genresList: { id: number; name: string }[];
 
+  myFantasyMovies: MyFantasyMovieProps[],
+  addFantasyMovie: ((fantasyMovie: MyFantasyMovieProps) => void);
+
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -35,6 +38,9 @@ const initialContextState: MovieContextInterface = {
   myReviews: [],
 
   genresList: [],
+
+  myFantasyMovies: [],
+  addFantasyMovie: () => { },
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -42,6 +48,7 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [favourites, setFavourites] = useState<FavouriteItem[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
+  const [myFantasyMovies, setMyFantasyMovies] = useState<MyFantasyMovieProps[]>([]);
 
   React.useEffect(() => {
     fetch(`http://localhost:4000/getfavourites`)
@@ -117,6 +124,24 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       .catch((err) => console.error(err));
   }, []);
 
+  const addFantasyMovie = useCallback(async (fantasyMovie: MyFantasyMovieProps) => {
+    await fetch("http://localhost:4000/addfantasymovie", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fantasyMovie),
+    });
+
+    setMyFantasyMovies((prev) => [...prev, fantasyMovie]);
+  }, []);
+
+  React.useEffect(() => {
+    fetch(`http://localhost:4000/getfantasymovies`)
+      .then((res) => res.json())
+      .then((data: MyFantasyMovieProps[]) => {
+        setMyFantasyMovies(data);
+      })
+  }, []);
+
 
   return (
     <MoviesContext.Provider
@@ -133,6 +158,9 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         myReviews,
 
         genresList,
+
+        myFantasyMovies,
+        addFantasyMovie,
       }}
     >
       {children}
