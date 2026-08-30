@@ -121,6 +121,6 @@ export interface MyFantasyMovieProps {
   directors: string[];
   plot: string;
   cast: { realName: string; fictionName: string }[];
-  image_path: string;
+  imagefile?: FileList;
 }
 

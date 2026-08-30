@@ -21,9 +21,8 @@ interface MovieContextInterface {
 
   genresList: { id: number; name: string }[];
 
-  myFantasyMovies: MyFantasyMovieProps[],
-  addFantasyMovie: ((fantasyMovie: MyFantasyMovieProps) => void);
-
+  myFantasyMovies: MyFantasyMovieProps[];
+  addFantasyMovie: ((formData: FormData) => Promise<void>);
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -40,7 +39,7 @@ const initialContextState: MovieContextInterface = {
   genresList: [],
 
   myFantasyMovies: [],
-  addFantasyMovie: () => { },
+  addFantasyMovie: async() => { },
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -124,14 +123,11 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       .catch((err) => console.error(err));
   }, []);
 
-  const addFantasyMovie = useCallback(async (fantasyMovie: MyFantasyMovieProps) => {
+  const addFantasyMovie = useCallback(async (formData: FormData) => {
     await fetch("http://localhost:4000/addfantasymovie", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fantasyMovie),
+      body: formData,
     });
-
-    setMyFantasyMovies((prev) => [...prev, fantasyMovie]);
   }, []);
 
   React.useEffect(() => {

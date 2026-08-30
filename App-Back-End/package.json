@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^21.4.9",
+    "cloudinary": "^2.11.0",
     "dotenv": "^17.4.2",
     "joi": "^18.2.3",
     "mongoose": "^9.7.4"
