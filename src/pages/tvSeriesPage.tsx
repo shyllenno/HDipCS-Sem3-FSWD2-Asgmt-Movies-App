@@ -56,7 +56,7 @@ const TVSeriesPage: React.FC = () => {
   return (
     <>
       <PageTemplate
-        title='Discover Movies'
+        title='Discover TV Series'
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => {
           return <AddToFavouritesIcon {...movie} />
