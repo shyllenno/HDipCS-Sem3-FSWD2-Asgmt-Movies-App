@@ -5,7 +5,7 @@ const MyFantasyMovieAddPage: React.FC = () => {
     return (
         <>
 
-            <FantasyMovieForm title={""} genres={[]} directors={[]} plot={""} cast={[]} image_path={""} />
+            <FantasyMovieForm />
 
         </>
     );

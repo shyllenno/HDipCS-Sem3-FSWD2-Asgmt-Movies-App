@@ -87,6 +87,7 @@ export interface Review {
   movieId: number,
   _id: string,
   type: string;
+  id?:string;
 }
 
 export interface UpcomingMovies {
