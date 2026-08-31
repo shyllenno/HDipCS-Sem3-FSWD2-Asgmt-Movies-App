@@ -1,40 +1,19 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import Spinner from "../components/spinner";
-
-import FantasyMovieDetails from "../components/fantasyMovieDetails";
+import { MoviesContext } from "../contexts/moviesContext";
 import FantasyMoviePageTemplate from "../components/templateFantasyMoviePage";
 
-import { MyFantasyMovieProps } from "../types/interfaces";
-import { MoviesContext } from "../contexts/moviesContext.tsx";
-
-
-
-const MyFantasyMovieDetailsPage: React.FC = () => {
+const MyFantasyMovieDetailsPage = () => {
   const { id } = useParams();
+  const { myFantasyMovies } = useContext(MoviesContext);
 
-  const { getFantasyMovieById } = useContext(MoviesContext);
+  const myFantasyMovie = myFantasyMovies.find((m) => m._id === id);
 
-  const { data: movie, error, isLoading, isError } = useQuery<MyFantasyMovieProps, Error>(
-    ["fantasy-details", id],
-    () => getFantasyMovieById(id!)
-  );
+  if (!myFantasyMovie) {
+    return <h3>Loading...</h3>;
+  }
 
-  if (isLoading) return <Spinner />;
-  if (isError) return <h1>{error.message}</h1>;
-
-  return (
-    <>
-      {movie ? (
-        <FantasyMoviePageTemplate movie={movie}>
-          <FantasyMovieDetails {...movie} />
-        </FantasyMoviePageTemplate>
-      ) : (
-        <p>Waiting for details</p>
-      )}
-    </>
-  );
+  return <FantasyMoviePageTemplate myFantasyMovie={myFantasyMovie} />;
 };
 
 export default MyFantasyMovieDetailsPage;

@@ -26,6 +26,13 @@ const MyFantasyMoviesPage: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const truncatePlot = (plot: string, words = 20) =>
+    plot.split(" ").slice(0, words).join(" ") +
+    (plot.split(" ").length > words ? "..." : "");
+
+  const { genreMap } = useContext(MoviesContext);
+
+
   return (
     <>
       <Fab
@@ -45,7 +52,7 @@ const MyFantasyMoviesPage: React.FC = () => {
         Create a Fantasy Movie
       </Fab >
 
-      <Grid container spacing={3} sx={{ padding: 3 }}>
+      <Grid container spacing={4} sx={{ padding: 2 }}>
         <Grid item xs={12}>
           <Typography variant="h3" component="h2" sx={{
             display: "flex",
@@ -58,23 +65,33 @@ const MyFantasyMoviesPage: React.FC = () => {
         </Grid>
 
         {myFantasyMovies.map((movie, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card>
+          <Grid item xs={12} sm={6} md={2} key={movie._id}>
+            <Card sx={{ width:"100%" }}>
               <CardMedia
                 component="img"
-                height="350"
+                sx={{ height: 400 }}
                 image={movie.image_path}
                 alt={movie.title}
               />
+
               <CardContent>
-                <Typography variant="h5">{movie.title}</Typography>
-                <Typography variant="body2">
-                  Genres: {movie.genres.join(", ")}
+                <Typography variant="h5" component="p">
+                  {movie.title}
                 </Typography>
-                <Typography variant="body2">
+
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  {truncatePlot(movie.plot, 20)}
+                </Typography>
+
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  Genres: {movie.genres.map((id) => genreMap[id]).join(", ")}
+                </Typography>
+
+                <Typography variant="body2" color="text.secondary">
                   Directors: {movie.directors.join(", ")}
                 </Typography>
-                <Typography variant="body2">
+
+                <Typography variant="body2" color="text.secondary">
                   Cast:{" "}
                   {movie.cast
                     .map((c) => `${c.realName} as ${c.fictionName}`)
@@ -82,9 +99,10 @@ const MyFantasyMoviesPage: React.FC = () => {
                 </Typography>
               </CardContent>
 
-              <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+              <CardActions disableSpacing sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Button
-                  variant="contained"
+                  variant="outlined"
+                  size="medium"
                   color="primary"
                   onClick={() => navigate(`/myfantasymovie/${movie._id}`)}
                 >
@@ -92,14 +110,18 @@ const MyFantasyMoviesPage: React.FC = () => {
                 </Button>
 
                 <Button
-                  variant="contained"
+                  variant="outlined"
+                  size="medium"
                   color="error"
-                  onClick={() => deleteFantasyMovie(movie._id)}                >
+                  onClick={() => deleteFantasyMovie(movie._id)}
+                >
                   Delete
                 </Button>
               </CardActions>
             </Card>
           </Grid>
+
+
         ))}
       </Grid>
 

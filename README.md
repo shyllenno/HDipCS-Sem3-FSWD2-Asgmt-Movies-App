@@ -19,4 +19,7 @@ This project extends the LabMoviesApp developed throughout the FSWD2 lectures & 
 9) Added TV Series Page: Page replicated from Movies HomePage. The Data Model and several Components were modified to accept the two data types: movie & tv, because, firstly, they call different end-points, and secondly, because few fields are named differently, e.g. movie uses title, but tv series use name, and thirdly, they have different fields
 10) Refactored My Reviews Page to accept TV Series data. Added an extra field in the DB Review Schema to hold the type "movie" or "tv" to be able to identify origin and call the correct end-point APIs.
 11) Added the column "Media" in the Review's table, to identify the type of the media, i.e. Movie or TV Serie.
-12) (Work-In-Progress: My Fantasy Movie): Backend created for Add a Fantasy Movie and Get the Fantasy Movies. Fantasy Movie homepage udpated, but needs formatting. TODO: Upload image to cloudinary and update homepage movie cards.
+12) Added My Fantasy Movie: Backend created for Add a Fantasy Movie and Get the Fantasy Movies. Fantasy Movie homepage udpated, but needs formatting. TODO: Upload image to cloudinary and update homepage movie cards.
+13) Backend connection to Cloudinary created, refactor My Fantasy Movie Form to send FormData rather than JSON
+14) Added view and delete buttons to My Fantasy Movies List Page
+15) My Fantasy Movie UI's design improved, refactored addFantasyMovie context to fetch the update list of My Fantasy Movies

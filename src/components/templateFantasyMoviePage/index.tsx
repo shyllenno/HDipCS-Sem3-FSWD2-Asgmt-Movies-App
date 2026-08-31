@@ -1,26 +1,33 @@
 import React from "react";
+import Box from "@mui/material/Box";
+import FantasyMovieDetails from "../myFantasyMovieDetails";
 import { MyFantasyMovieProps } from "../../types/interfaces";
 
-interface Props {
-  movie: MyFantasyMovieProps;
-  children: React.ReactNode;
+interface FantasyMoviePageProps {
+  myFantasyMovie: MyFantasyMovieProps;
 }
 
-const FantasyMoviePageTemplate: React.FC<Props> = ({ movie, children }) => {
+const  MyFantasyMoviePage: React.FC<FantasyMoviePageProps> = ({ myFantasyMovie }) => {
   return (
-    <div className="fantasy-movie-page">
-      <div className="header">
+    <Box sx={{ display: "flex", gap: 4 }}>
+      <Box sx={{ width: "50%" }}>
         <img
-          src={movie.image_path}
-          alt={movie.title}
-          className="fantasy-movie-poster"
+          src={myFantasyMovie.image_path}
+          alt={myFantasyMovie.title}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "8px",
+          }}
         />
-        <h2>{movie.title}</h2>
-      </div>
+      </Box>
 
-      <div className="content">{children}</div>
-    </div>
+      <Box sx={{ width: "50%" }}>
+        <FantasyMovieDetails {...myFantasyMovie} />
+      </Box>
+    </Box>
   );
 };
 
-export default FantasyMoviePageTemplate;
+export default MyFantasyMoviePage;

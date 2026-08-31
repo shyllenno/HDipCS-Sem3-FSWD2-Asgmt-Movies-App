@@ -20,6 +20,7 @@ interface MovieContextInterface {
   myReviews: Review[];
 
   genresList: { id: number; name: string }[];
+  genreMap: Record<number, string>;
 
   myFantasyMovies: MyFantasyMovieProps[];
   addFantasyMovie: ((formData: FormData) => Promise<void>);
@@ -39,6 +40,7 @@ const initialContextState: MovieContextInterface = {
   myReviews: [],
 
   genresList: [],
+  genreMap: {},
 
   myFantasyMovies: [],
   addFantasyMovie: async () => { },
@@ -52,7 +54,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   const [favourites, setFavourites] = useState<FavouriteItem[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
   const [myFantasyMovies, setMyFantasyMovies] = useState<MyFantasyMovieProps[]>([]);
-  
+
 
   React.useEffect(() => {
     fetch(`http://localhost:4000/getfavourites`)
@@ -128,12 +130,31 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       .catch((err) => console.error(err));
   }, []);
 
+  const genreMap = React.useMemo(() => {
+    const map: Record<number, string> = {};
+    genresList.forEach((g) => {
+      map[g.id] = g.name;
+    });
+    return map;
+  }, [genresList]);
+
+
   const addFantasyMovie = useCallback(async (formData: FormData) => {
-    await fetch("http://localhost:4000/addfantasymovie", {
+    const res = await fetch("http://localhost:4000/addfantasymovie", {
       method: "POST",
       body: formData,
     });
+
+    if (!res.ok) {
+      throw new Error("Failed to add fantasy movie");
+    }
+
+    const updatedListRes = await fetch("http://localhost:4000/getfantasymovies");
+    const updatedList = await updatedListRes.json();
+
+    setMyFantasyMovies(updatedList);
   }, []);
+
 
   React.useEffect(() => {
     fetch(`http://localhost:4000/getfantasymovies`)
@@ -177,6 +198,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         myReviews,
 
         genresList,
+        genreMap,
 
         myFantasyMovies,
         addFantasyMovie,
