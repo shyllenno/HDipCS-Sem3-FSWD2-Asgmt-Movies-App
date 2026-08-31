@@ -57,7 +57,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
 
   React.useEffect(() => {
-    fetch(`http://localhost:4000/getfavourites`)
+    fetch(`https://fswd2-asgmt-movies-app-backend.onrender.com/getfavourites`)
       .then((res) => res.json())
       .then(
         (data: { movieId: number; type: "movie" | "tv" }[]) =>
@@ -73,7 +73,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   const addToFavourites = useCallback(async (movie: BaseMovieProps) => {
     const type: "movie" | "tv" = movie.title ? "movie" : "tv";
 
-    await fetch("http://localhost:4000/addtofavourites", {
+    await fetch("https://fswd2-asgmt-movies-app-backend.onrender.com/addtofavourites", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ movieId: movie.id, type }),
@@ -83,7 +83,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   }, []);
 
   const removeFromFavourites = useCallback(async (movie: BaseMovieProps) => {
-    await fetch(`http://localhost:4000/removefromfavourites/${movie.id}`, {
+    await fetch(`https://fswd2-asgmt-movies-app-backend.onrender.com/removefromfavourites/${movie.id}`, {
       method: "DELETE",
     });
 
@@ -94,7 +94,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     const type: "movie" | "tv" = movie.title ? "movie" : "tv";
     review.type = type;
 
-    await fetch("http://localhost:4000/addreview", {
+    await fetch("https://fswd2-asgmt-movies-app-backend.onrender.com/addreview", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(review),
@@ -140,7 +140,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
 
   const addFantasyMovie = useCallback(async (formData: FormData) => {
-    const res = await fetch("http://localhost:4000/addfantasymovie", {
+    const res = await fetch("https://fswd2-asgmt-movies-app-backend.onrender.com/addfantasymovie", {
       method: "POST",
       body: formData,
     });
@@ -149,7 +149,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       throw new Error("Failed to add fantasy movie");
     }
 
-    const updatedListRes = await fetch("http://localhost:4000/getfantasymovies");
+    const updatedListRes = await fetch("https://fswd2-asgmt-movies-app-backend.onrender.com/getfantasymovies");
     const updatedList = await updatedListRes.json();
 
     setMyFantasyMovies(updatedList);
@@ -157,7 +157,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
 
   React.useEffect(() => {
-    fetch(`http://localhost:4000/getfantasymovies`)
+    fetch(`https://fswd2-asgmt-movies-app-backend.onrender.com/getfantasymovies`)
       .then((res) => res.json())
       .then((data: MyFantasyMovieProps[]) => {
         setMyFantasyMovies(data);
@@ -165,7 +165,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   }, []);
 
   const getFantasyMovieById = useCallback(async (id: string): Promise<MyFantasyMovieProps> => {
-    const res = await fetch(`http://localhost:4000/getfantasymovie/${id}`);
+    const res = await fetch(`https://fswd2-asgmt-movies-app-backend.onrender.com/getfantasymovie/${id}`);
     if (!res.ok) {
       throw new Error(`Failed to fetch fantasy movie ${id}`);
     }
@@ -174,7 +174,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
 
   const deleteFantasyMovie = useCallback(async (id: string) => {
-    await fetch(`http://localhost:4000/deletefantasymovie/${id}`, {
+    await fetch(`https://fswd2-asgmt-movies-app-backend.onrender.com/deletefantasymovie/${id}`, {
       method: "DELETE",
     });
 

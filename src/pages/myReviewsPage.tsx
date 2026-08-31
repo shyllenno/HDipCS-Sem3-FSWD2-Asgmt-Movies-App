@@ -10,7 +10,7 @@ const ReviewsPage: React.FC = () => {
     const [loadedReviews, setLoadedReviews] = useState<Review[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:4000/getreviews")
+        fetch("https://fswd2-asgmt-movies-app-backend.onrender.com/getreviews")
             .then((res) => res.json())
             .then((data) => setLoadedReviews(data));
     }, []);
@@ -59,7 +59,7 @@ const ReviewsPage: React.FC = () => {
     : [];
 
     const deleteReview = async (reviewId: string) => {
-        await fetch(`http://localhost:4000/deletereview/${reviewId}`, {
+        await fetch(`https://fswd2-asgmt-movies-app-backend.onrender.com/deletereview/${reviewId}`, {
             method: "DELETE",
         });
 
