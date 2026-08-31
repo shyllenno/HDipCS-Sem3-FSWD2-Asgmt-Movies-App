@@ -8,4 +8,13 @@ export const fantasyMovieStore = {
   async getFantasyMovies() {
     return FantasyMovieSchema.find();
   },
+
+  async getFantasyMovieById(id) {
+    return FantasyMovieSchema.findById(id);
+  },
+
+  async deleteFantasyMovie(id) {
+    return FantasyMovieSchema.findByIdAndDelete(id);
+  }
+
 };

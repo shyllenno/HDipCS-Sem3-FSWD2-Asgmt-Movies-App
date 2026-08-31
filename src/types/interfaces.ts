@@ -116,11 +116,17 @@ export interface TVDetailsProps {
 }
 
 export interface MyFantasyMovieProps {
+  _id: string;
   title: string;
   genres: { id: number; name: string }[];
   directors: string[];
   plot: string;
   cast: { realName: string; fictionName: string }[];
   imagefile?: FileList;
+  image_path?: string;
+
 }
+
+
+
 

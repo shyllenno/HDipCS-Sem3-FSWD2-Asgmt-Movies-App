@@ -197,6 +197,7 @@ const FantasyMovieForm: React.FC = () => {
         />
 
         {/* IMAGE UPLOAD */}
+        {/* Reference: https://claritydev.net/blog/react-hook-form-multipart-form-data-file-uploads */}
         <Controller
           name="imagefile"
           control={control}

@@ -23,6 +23,8 @@ interface MovieContextInterface {
 
   myFantasyMovies: MyFantasyMovieProps[];
   addFantasyMovie: ((formData: FormData) => Promise<void>);
+  getFantasyMovieById: ((id: string) => Promise<MyFantasyMovieProps>);
+  deleteFantasyMovie: ((id: string) => Promise<void>);
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -39,7 +41,9 @@ const initialContextState: MovieContextInterface = {
   genresList: [],
 
   myFantasyMovies: [],
-  addFantasyMovie: async() => { },
+  addFantasyMovie: async () => { },
+  getFantasyMovieById: async (id: string) => { return {} as MyFantasyMovieProps; },
+  deleteFantasyMovie: async () => { },
 };
 
 export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
@@ -48,6 +52,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   const [favourites, setFavourites] = useState<FavouriteItem[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
   const [myFantasyMovies, setMyFantasyMovies] = useState<MyFantasyMovieProps[]>([]);
+  
 
   React.useEffect(() => {
     fetch(`http://localhost:4000/getfavourites`)
@@ -138,6 +143,24 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
       })
   }, []);
 
+  const getFantasyMovieById = useCallback(async (id: string): Promise<MyFantasyMovieProps> => {
+    const res = await fetch(`http://localhost:4000/getfantasymovie/${id}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch fantasy movie ${id}`);
+    }
+    return await res.json();
+  }, []);
+
+
+  const deleteFantasyMovie = useCallback(async (id: string) => {
+    await fetch(`http://localhost:4000/deletefantasymovie/${id}`, {
+      method: "DELETE",
+    });
+
+    setMyFantasyMovies((prev) => prev.filter((m) => m._id !== id));
+  }, []);
+
+
 
   return (
     <MoviesContext.Provider
@@ -157,6 +180,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
         myFantasyMovies,
         addFantasyMovie,
+        getFantasyMovieById,
+        deleteFantasyMovie,
       }}
     >
       {children}

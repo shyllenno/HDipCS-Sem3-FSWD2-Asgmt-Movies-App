@@ -16,6 +16,7 @@ import TVSeriesPage from "./pages/tvSeriesPage.tsx";
 import TVDetailsPage from "./pages/tvDetailsPage.tsx";
 import MyFantasyMoviesPage from "./pages/myFantasyMoviesPage.tsx";
 import MyFantasyMovieAddPage from "./pages/myFantasyMovieAddPage.tsx";
+import MyFantasyMovieDetailsPage from "./pages/myFantasyMovieDetailsPage.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,12 +35,13 @@ const App = () => {
         <SiteHeader />
         <MoviesContextProvider>
           <Routes>
+            <Route path="/myfantasymovie/:id" element={<MyFantasyMovieDetailsPage />} />
             <Route path="/myfantasymovies/form" element={<MyFantasyMovieAddPage />} />
             <Route path="/myfantasymovies" element={<MyFantasyMoviesPage />} />
             <Route path="/tv/:id" element={<TVDetailsPage />} />
-            <Route path="/tvseries" element={<TVSeriesPage/>} />
-            <Route path="/myreviews" element={<ReviewsPage/>} />
-            <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
+            <Route path="/tvseries" element={<TVSeriesPage />} />
+            <Route path="/myreviews" element={<ReviewsPage />} />
+            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
             <Route path="/movies/upcoming" element={<UpcomingPage />} />
             <Route path="/reviews/:id" element={<MoviewReviewPage />} />
             <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />

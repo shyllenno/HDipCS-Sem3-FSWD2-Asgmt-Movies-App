@@ -13,4 +13,9 @@ export const webRoutes = [
 
   { method: "POST", path: "/addfantasymovie", config: fantasyMovieController.addFantasyMovie },
   { method: "GET", path: "/getfantasymovies", config: fantasyMovieController.getFantasyMovies },
+  { method: "GET", path: "/getfantasymovie/{id}", config: fantasyMovieController.getFantasyMovieById },
+  { method: "DELETE", path: "/deletefantasymovie/{id}", config: fantasyMovieController.deleteFantasyMovie },
+
+
+
 ];

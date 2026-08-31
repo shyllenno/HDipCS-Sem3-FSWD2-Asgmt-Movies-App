@@ -61,4 +61,39 @@ export const fantasyMovieController = {
       return movies;
     },
   },
+
+  getFantasyMovieById: {
+    handler: async function (request, h) {
+      const { id } = request.params;
+
+      const movie = await fantasyMovieStore.getFantasyMovieById(id);
+      if (!movie) {
+        return h.response({ error: "Movie not found" }).code(404);
+      }
+
+      return movie; // Hapi automatically returns JSON
+    }
+  },
+
+  deleteFantasyMovie: {
+    handler: async function (request, h) {
+      const { id } = request.params;
+
+      const movie = await fantasyMovieStore.getFantasyMovieById(id);
+      if (!movie) {
+        return h.response({ error: "Movie not found" }).code(404);
+      }
+
+      // Optional: delete Cloudinary image
+      if (movie.image_path) {
+        const publicId = movie.image_path.split("/").pop().split(".")[0];
+        await imageStore.deleteImage(publicId);
+      }
+
+      await fantasyMovieStore.deleteFantasyMovie(id);
+
+      return h.response({ success: true }).code(200);
+    }
+  }
+
 };

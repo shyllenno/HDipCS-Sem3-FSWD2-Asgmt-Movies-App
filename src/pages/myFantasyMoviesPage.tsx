@@ -7,9 +7,10 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import { Button, CardActions } from "@mui/material";
 
 const MyFantasyMoviesPage: React.FC = () => {
-  const { myFantasyMovies } = useContext(MoviesContext);
+  const { myFantasyMovies, deleteFantasyMovie } = useContext(MoviesContext);
 
   const styles = {
     root: {
@@ -80,6 +81,23 @@ const MyFantasyMoviesPage: React.FC = () => {
                     .join(", ")}
                 </Typography>
               </CardContent>
+
+              <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigate(`/myfantasymovie/${movie._id}`)}
+                >
+                  View
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => deleteFantasyMovie(movie._id)}                >
+                  Delete
+                </Button>
+              </CardActions>
             </Card>
           </Grid>
         ))}
